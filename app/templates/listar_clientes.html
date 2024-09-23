@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4">Lista de Clientes</h1>
+
+<!-- Tabela de Clientes -->
+<table class="table is-striped is-hoverable is-fullwidth">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Endereço</th>
+            <th>CEP</th>
+            <th>CNPJ</th>
+            <th>Conta Sigma</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cliente in clientes %}
+        <tr>
+            <td>{{ cliente.nome }}</td>
+            <td>{{ cliente.endereco }}</td>
+            <td>{{ cliente.cep }}</td>
+            <td>{{ cliente.cnpj }}</td>
+            <td>{{ cliente.conta_sigma }}</td>
+            <td>
+                <a href="{{ url_for('clientes.editar_cliente', cliente_id=cliente.id) }}" class="button is-small is-info">Editar</a>
+                <a href="{{ url_for('clientes.excluir_cliente', cliente_id=cliente.id) }}" class="button is-small is-danger" onclick="return confirm('Tem certeza que deseja excluir este cliente?');">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

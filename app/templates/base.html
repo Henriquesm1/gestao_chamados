@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Gestão de Chamados</title>
+    <style>
+        /* Ajustes gerais */
+        body {
+            background-color: #f7f7f7;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Ícone de engrenagem para perfil */
+        .icon-gear {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            color: #333;
+        }
+
+        /* Menu lateral */
+        .menu {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            height: 100vh;
+            position: fixed;
+            width: 240px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu-hidden {
+            transform: translateX(-240px);
+        }
+
+        .menu-list a {
+            color: #bdc3c7;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .menu-list a:hover {
+            background-color: #34495e;
+            color: #fff;
+        }
+
+        /* Conteúdo principal */
+        #main-column {
+            margin-left: 240px;
+            padding: 20px;
+            background-color: #f7f7f7;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        /* Botão para alternar menu lateral em telas pequenas */
+        .button.is-primary.is-hidden-desktop {
+            margin: 15px 0;
+        }
+
+        /* Cards */
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsividade */
+        @media screen and (max-width: 768px) {
+            #main-column {
+                margin-left: 0;
+                padding: 10px;
+            }
+
+            .menu {
+                position: absolute;
+                width: 240px;
+                transform: translateX(-240px);
+                z-index: 1000;
+            }
+
+            .menu.menu-visible {
+                transform: translateX(0);
+            }
+
+            .button.is-primary.is-hidden-desktop {
+                display: block;
+            }
+        }
+
+        /* Modal ajustes */
+        .modal-card {
+            max-width: 400px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Ícone de engrenagem -->
+    <span class="icon icon-gear" onclick="toggleUserModal()" aria-label="perfil">
+        <i class="fas fa-cog"></i>
+    </span>
+
+    <!-- Layout com menu lateral fixo -->
+    <div class="columns is-gapless">
+        <aside class="menu column is-2" id="sidebar">
+            <p class="menu-label">Geral</p>
+            <ul class="menu-list">
+                <!-- Menu Dashboard -->
+                <li><a href="{{ url_for('dashboard.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+
+                <!-- Menu Chamados -->
+                <li>
+                    <a class="has-dropdown" href="#" onclick="toggleMenu('menu-chamados')"><i class="fas fa-tasks"></i> Chamados</a>
+                    <ul id="menu-chamados" class="submenu is-hidden">
+                        <li><a href="{{ url_for('chamados.listar_chamados') }}"><i class="fas fa-list"></i> Listar Chamados</a></li>
+                        <li><a href="{{ url_for('chamados.novo_chamado') }}"><i class="fas fa-plus-circle"></i> Novo Chamado</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menu Categorias -->
+                <li>
+                    <a class="has-dropdown" href="#" onclick="toggleMenu('menu-categorias')"><i class="fas fa-folder-open"></i> Categorias</a>
+                    <ul id="menu-categorias" class="submenu is-hidden">
+                        <li><a href="{{ url_for('categorias.listar_categorias') }}"><i class="fas fa-list"></i> Listar Categorias</a></li>
+                        <li><a href="{{ url_for('categorias.nova_categoria') }}"><i class="fas fa-plus-circle"></i> Nova Categoria</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menu Serviços -->
+                <li>
+                    <a class="has-dropdown" href="#" onclick="toggleMenu('menu-servicos')"><i class="fas fa-concierge-bell"></i> Serviços</a>
+                    <ul id="menu-servicos" class="submenu is-hidden">
+                        <li><a href="{{ url_for('servicos.listar_servicos') }}"><i class="fas fa-list"></i> Listar Serviços</a></li>
+                        <li><a href="{{ url_for('servicos.novo_servico') }}"><i class="fas fa-plus-circle"></i> Novo Serviço</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menu Clientes -->
+                <li>
+                    <a class="has-dropdown" href="#" onclick="toggleMenu('menu-clientes')"><i class="fas fa-user"></i> Clientes</a>
+                    <ul id="menu-clientes" class="submenu is-hidden">
+                        <li><a href="{{ url_for('clientes.listar_clientes') }}"><i class="fas fa-list"></i> Listar Clientes</a></li>
+                        <li><a href="{{ url_for('clientes.novo_cliente') }}"><i class="fas fa-plus-circle"></i> Novo Cliente</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menu Usuários -->
+                <li>
+                    <a class="has-dropdown" href="#" onclick="toggleMenu('menu-usuarios')"><i class="fas fa-users"></i> Usuários</a>
+                    <ul id="menu-usuarios" class="submenu is-hidden">
+                        <li><a href="{{ url_for('usuarios.listar_usuarios') }}"><i class="fas fa-list"></i> Listar Usuários</a></li>
+                        <li><a href="{{ url_for('usuarios.criar_usuario') }}"><i class="fas fa-user-plus"></i> Novo Usuário</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <div class="column is-10" id="main-column">
+            <button class="button is-primary is-hidden-desktop" id="toggle-sidebar"><i class="fas fa-bars"></i> Menu</button>
+            <div id="main-content">
+                <div class="container">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para Alterar Senha -->
+<div class="modal" id="user-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Alterar Senha</p>
+            <button class="delete" aria-label="close" onclick="toggleUserModal()"></button>
+        </header>
+        <section class="modal-card-body">
+            <form id="form-alterar-senha" method="POST">
+                <div class="field">
+                    <label class="label">Nova Senha</label>
+                    <div class="control">
+                        <input class="input" type="password" name="senha" placeholder="Digite a nova senha" required>
+                    </div>
+                </div>
+                <button class="button is-link is-fullwidth" type="submit">Alterar Senha</button>
+            </form>
+        </section>
+        <footer class="modal-card-foot">
+            <!-- Botão de Logout -->
+            <form method="POST" action="{{ url_for('usuarios.logout') }}">
+                <button class="button is-danger is-fullwidth" type="submit">Logout</button>
+            </form>
+        </footer>
+    </div>
+</div>
+
+
+    <script>
+        function toggleUserModal() {
+            document.getElementById('user-modal').classList.toggle('is-active');
+        }
+
+        function toggleMenu(menuId) {
+            var menu = document.getElementById(menuId);
+            menu.classList.toggle('is-hidden');
+        }
+
+        document.getElementById('toggle-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('menu-hidden');
+            document.getElementById('sidebar').classList.toggle('menu-visible');
+        });
+    </script>
+</body>
+</html>

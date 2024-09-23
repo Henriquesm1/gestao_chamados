@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4">Lista de Chamados</h1>
+<a href="{{ url_for('chamados.novo_chamado') }}" class="button is-success mb-3">Novo Chamado</a>
+<table class="table is-striped is-hoverable is-fullwidth">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Status</th>
+            <th>Data de Criação</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for chamado in chamados %}
+        <tr>
+            <td>{{ chamado.id }}</td>
+            <td>{{ chamado.titulo }}</td>
+            <td>{{ chamado.status }}</td>
+            <td>{{ chamado.data_criacao }}</td>
+            <td>
+                <a href="{{ url_for('chamados.tratar_chamado', id=chamado.id) }}" class="button is-small is-primary">Tratar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

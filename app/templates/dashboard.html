@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4">Dashboard de Gestão de Chamados</h1>
+<div class="columns is-multiline is-mobile">
+    <div class="column is-3">
+        <div class="card has-background-primary-light" style="height: 150px;">
+            <div class="card-content">
+                <p class="title is-6">Total de Chamados</p>
+                <p class="subtitle is-4 has-text-primary">{{ total_chamados }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="column is-3">
+        <div class="card has-background-warning-light" style="height: 150px;">
+            <div class="card-content">
+                <p class="title is-6">Chamados Abertos</p>
+                <p class="subtitle is-4 has-text-warning">{{ chamados_abertos }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="column is-3">
+        <div class="card has-background-info-light" style="height: 150px;">
+            <div class="card-content">
+                <p class="title is-6">Chamados em Atendimento</p>
+                <p class="subtitle is-4 has-text-info">{{ chamados_em_atendimento }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="column is-3">
+        <div class="card has-background-success-light" style="height: 150px;">
+            <div class="card-content">
+                <p class="title is-6">Chamados Fechados</p>
+                <p class="subtitle is-4 has-text-success">{{ chamados_fechados }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

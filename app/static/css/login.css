@@ -1,0 +1,131 @@
+/* Estilo geral do corpo */
+body {
+    background-color: #d8e6f3;  /* Azul suave */
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Container principal do login */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Cartão de login */
+.login-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Título */
+.title {
+    font-size: 28px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Subtítulo */
+.subtitle {
+    font-size: 16px;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+/* Campos de formulário */
+.field {
+    margin-bottom: 20px;
+}
+
+/* Labels */
+.label {
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Inputs */
+.input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input:focus {
+    border-color: #3273dc;
+    box-shadow: 0 0 5px rgba(50, 115, 220, 0.5);
+    outline: none;
+}
+
+/* Ícones */
+.has-icons-left .icon {
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 10px;
+    color: #888;
+}
+
+.control {
+    position: relative;
+}
+
+/* Botão de login */
+.button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3273dc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #275caa;
+}
+
+/* Notificações de erro */
+.notification {
+    background-color: #f14668;
+    color: white;
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Link para recuperação de senha */
+.forgot-password {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #3273dc;
+}
+
+.forgot-password a {
+    text-decoration: none;
+    color: #3273dc;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}

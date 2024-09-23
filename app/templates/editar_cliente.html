@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4">Editar Cliente</h1>
+<div class="card">
+    <div class="card-content">
+        <form method="POST">
+            <!-- Campo para Nome do Cliente -->
+            <div class="field">
+                <label for="nome" class="label">Nome do Cliente</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="nome" value="{{ cliente.nome }}" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para Endereço -->
+            <div class="field">
+                <label for="endereco" class="label">Endereço</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="endereco" value="{{ cliente.endereco }}">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para CEP -->
+            <div class="field">
+                <label for="cep" class="label">CEP</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="cep" value="{{ cliente.cep }}" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-mail-bulk"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para CNPJ -->
+            <div class="field">
+                <label for="cnpj" class="label">CNPJ</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="cnpj" value="{{ cliente.cnpj }}" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-id-card"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para Conta Sigma -->
+            <div class="field">
+                <label for="conta_sigma" class="label">Conta Sigma</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="conta_sigma" value="{{ cliente.conta_sigma }}">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-credit-card"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button type="submit" class="button is-success">Salvar Alterações</button>
+                </div>
+                <div class="control">
+                    <a href="{{ url_for('clientes.listar_clientes') }}" class="button is-light">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

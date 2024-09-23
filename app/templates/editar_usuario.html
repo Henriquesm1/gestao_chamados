@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4">Editar Usuário</h1>
+<div class="card">
+    <div class="card-content">
+        <form method="POST">
+            <!-- Campo para Nome -->
+            <div class="field">
+                <label class="label">Nome</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="text" name="nome" value="{{ usuario.username }}" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para E-mail -->
+            <div class="field">
+                <label class="label">E-mail</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="email" name="email" value="{{ usuario.email }}" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para Nova Senha -->
+            <div class="field">
+                <label class="label">Nova Senha (deixe em branco para não alterar)</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="password" name="senha">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para Perfil -->
+            <div class="field">
+                <label class="label">Perfil</label>
+                <div class="control has-icons-left">
+                    <div class="select is-fullwidth">
+                        <select name="perfil" required>
+                            <option value="admin" {% if usuario.perfil == 'admin' %}selected{% endif %}>Admin</option>
+                            <option value="tecnico" {% if usuario.perfil == 'tecnico' %}selected{% endif %}>Técnico</option>
+                            <option value="analista" {% if usuario.perfil == 'analista' %}selected{% endif %}>Analista</option>
+                            <option value="cliente" {% if usuario.perfil == 'cliente' %}selected{% endif %}>Cliente</option>
+                        </select>
+                    </div>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user-cog"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-link" type="submit">Salvar</button>
+                </div>
+                <div class="control">
+                    <a href="{{ url_for('usuarios.listar_usuarios') }}" class="button is-light">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

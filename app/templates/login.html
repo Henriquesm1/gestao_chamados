@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Gestão de Chamados</title>
+    <!-- Link para o CSS específico da página de login -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h1 class="title">Bem-vindo</h1>
+            <p class="subtitle">Entre para acessar o sistema</p>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="notification">
+                        {% for category, message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <form method="POST">
+                <!-- Campo para E-mail -->
+                <div class="field">
+                    <label class="label">E-mail</label>
+                    <div class="control">
+                        <input class="input" type="email" name="email" placeholder="Digite seu e-mail" required>
+                    </div>
+                </div>
+
+                <!-- Campo para Senha -->
+                <div class="field">
+                    <label class="label">Senha</label>
+                    <div class="control">
+                        <input class="input" type="password" name="senha" placeholder="Digite sua senha" required>
+                    </div>
+                </div>
+
+                <!-- Botão de Login -->
+                <div class="field">
+                    <button class="button" type="submit">Entrar</button>
+                </div>
+
+                <!-- Link para recuperação de senha (opcional) -->
+                <p class="forgot-password"><a href="#">Esqueceu sua senha?</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

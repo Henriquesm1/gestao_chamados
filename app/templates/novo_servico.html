@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4">Novo Serviço</h1>
+<div class="card">
+    <div class="card-content">
+        <form method="POST">
+            <div class="field">
+                <label for="nome" class="label">Nome do Serviço</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="nome" placeholder="Digite o nome do serviço" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-concierge-bell"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="descricao" class="label">Descrição</label>
+                <div class="control has-icons-left">
+                    <textarea class="textarea" name="descricao" rows="4" placeholder="Descreva o serviço"></textarea>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-align-left"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="categoria" class="label">Categoria</label>
+                <div class="control has-icons-left">
+                    <div class="select is-fullwidth">
+                        <select name="categoria">
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-folder-open"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button type="submit" class="button is-success">Criar Serviço</button>
+                </div>
+                <div class="control">
+                    <a href="{{ url_for('servicos.listar_servicos') }}" class="button is-light">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

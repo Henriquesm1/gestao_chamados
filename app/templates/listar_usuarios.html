@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4">Lista de Usuários</h1>
+<div class="table-container">
+    <table class="table is-fullwidth is-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Perfil</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.username }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>{{ usuario.perfil }}</td>
+                <td>
+                    <a href="{{ url_for('usuarios.editar_usuario', id=usuario.id) }}" class="button is-small is-info">Editar</a>
+                    <!-- Botão de deletar -->
+                    <form method="POST" action="{{ url_for('usuarios.deletar_usuario', id=usuario.id) }}" style="display:inline;">
+                        <button class="button is-small is-danger" type="submit" onclick="return confirm('Tem certeza que deseja deletar este usuário?');">Deletar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

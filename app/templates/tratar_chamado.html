@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4 mb-4">Tratar Chamado - {{ chamado.titulo }}</h1>
+
+<!-- Informações do Chamado -->
+<div class="columns">
+    <div class="column is-half">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-content">
+                <div class="content">
+                    <p><strong>Status:</strong> <span class="tag is-info">{{ chamado.status }}</span></p>
+                    <p><strong>Descrição:</strong> {{ chamado.descricao }}</p>
+                    <p><strong>Operador Tratativa:</strong> {{ chamado.operador_tratativa or 'Não Iniciado' }}</p>
+                    <p><strong>Data/Hora Tratativa:</strong> {{ chamado.hora_tratativa or 'Não Iniciado' }}</p>
+                    <p><strong>Operador Finalização:</strong> {{ chamado.operador_finalizacao or 'Em Aberto' }}</p>
+                    <p><strong>Data/Hora Finalização:</strong> {{ chamado.hora_finalizacao or 'Em Aberto' }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Informações do Cliente -->
+    <div class="column is-half">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-content">
+                <h2 class="title is-5">Informações do Cliente</h2>
+                <div class="content">
+                    <p><strong>Nome:</strong> {{ chamado.cliente.nome }}</p>
+                    <p><strong>CNPJ:</strong> {{ chamado.cliente.cnpj }}</p>
+                    <p><strong>Endereço:</strong> {{ chamado.cliente.endereco }}</p>
+                    <p><strong>Conta Sigma:</strong> {{ chamado.cliente.conta_sigma }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Histórico de Interações -->
+<h2 class="title is-5">Histórico de Interações</h2>
+<div class="card mb-4 shadow-sm">
+    <div class="card-content">
+        <ul class="list-group">
+            {% for item in historico %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ item.data_interacao }} - {{ item.comentario }}</span>
+            </li>
+            {% else %}
+            <p class="has-text-centered has-text-grey">Nenhuma interação registrada.</p>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Formulário para Adicionar Comentário e Finalizar Chamado -->
+<div class="card shadow-sm">
+    <div class="card-content">
+        <form method="POST" action="{{ url_for('chamados.tratar_chamado', id=chamado.id) }}" class="needs-validation" novalidate>
+            <div class="field">
+                <label for="comentario" class="label">Adicionar Comentário</label>
+                <div class="control">
+                    <textarea name="comentario" class="textarea" placeholder="Adicione um comentário" required></textarea>
+                    <p class="help is-danger">Por favor, adicione um comentário.</p>
+                </div>
+            </div>
+            <input type="hidden" name="operador_tratativa" value="{{ current_user.username }}">
+            <div class="field is-grouped is-grouped-right mt-3">
+                <div class="control">
+                    <button type="submit" class="button is-link">Adicionar Comentário</button>
+                </div>
+                <div class="control">
+                    <button type="button" class="button is-danger" onclick="finalizarChamado()">Finalizar Chamado</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+
+    // Função para finalizar o chamado com confirmação
+    function finalizarChamado() {
+        if (confirm('Tem certeza que deseja finalizar este chamado?')) {
+            // Cria um formulário e envia como POST
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = "{{ url_for('chamados.finalizar_chamado', id=chamado.id) }}";
+
+            // Adiciona o CSRF token se necessário
+            const csrfToken = document.querySelector('input[name="csrf_token"]');
+            if (csrfToken) {
+                const tokenInput = document.createElement('input');
+                tokenInput.type = 'hidden';
+                tokenInput.name = 'csrf_token';
+                tokenInput.value = csrfToken.value;
+                form.appendChild(tokenInput);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
+{% endblock %}

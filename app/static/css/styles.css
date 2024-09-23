@@ -1,0 +1,123 @@
+/* Ajuste no fundo da página */
+body {
+    background-color: #e0e0e0; /* Suaviza o fundo para um cinza claro */
+    font-family: 'Roboto', sans-serif; /* Fonte moderna e legível */
+    color: #333; /* Cor padrão do texto */
+    line-height: 1.6;
+}
+
+/* Menu lateral */
+.menu {
+    height: 100%;
+    overflow-y: auto;
+    background-color: #1c1c1c; /* Cor mais escura para contraste */
+    color: #fff;
+    transition: all 0.3s;
+    width: 240px; /* Ligeiramente mais largo para melhor leitura */
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Adiciona sombra para profundidade */
+}
+
+.menu-label {
+    color: #fff;
+    font-weight: bold;
+    padding: 15px 10px; /* Mais espaçamento para destacar */
+    text-transform: uppercase;
+}
+
+.menu-list a {
+    color: #b8b8b8;
+    display: block;
+    padding: 12px 20px; /* Mais espaçamento interno */
+    cursor: pointer;
+    border-radius: 4px; /* Bordas arredondadas */
+    transition: background 0.3s ease, color 0.3s ease; /* Transição suave */
+}
+
+.menu-list a:hover {
+    background-color: #555; /* Efeito de hover mais suave */
+    color: #fff;
+}
+
+.menu-list .has-dropdown::after {
+    content: ' ▼';
+    font-size: 12px;
+    float: right;
+    margin-right: 8px;
+}
+
+/* Submenu escondido */
+.is-hidden {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.submenu {
+    padding-left: 25px;
+    margin-top: 5px;
+}
+
+/* Estilo dos cards */
+.card {
+    margin-top: 20px;
+    border-radius: 10px; /* Bordas arredondadas */
+    background-color: #fff; /* Fundo branco para contraste */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efeito suave */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra mais forte no hover */
+}
+
+/* Rodapé */
+.footer {
+    padding: 20px 0;
+    width: 100%;
+    margin-left: 240px; /* Ajuste para que o rodapé não fique sobre o menu */
+    background-color: #f1f1f1;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Botões */
+.button {
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #007bff; /* Cor do botão primário */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3; /* Tom mais escuro no hover */
+}
+
+/* Coluna principal */
+#main-column {
+    margin-left: 240px;
+    padding: 20px;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+/* Ajustes para telas menores */
+@media screen and (max-width: 1024px) {
+    #main-column {
+        margin-left: 0;
+    }
+
+    .menu {
+        position: absolute;
+        width: 0;
+    }
+}

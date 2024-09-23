@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4">Novo Chamado</h1>
+<div class="card">
+    <div class="card-content">
+        <form method="POST" id="form-novo-chamado">
+            <!-- Campo para Título -->
+            <div class="field">
+                <label for="titulo" class="label">Título</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input is-readonly" name="titulo" id="titulo" value="N°{{ solicitacao_id }}" readonly>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-heading"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para Nome Operador Abertura -->
+            <div class="field">
+                <label for="operador" class="label">Nome Operador Abertura</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input is-readonly" name="operador" id="operador" value="{{ current_user.username }}" readonly>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user-circle"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para Selecionar Cliente -->
+            <div class="field">
+                <label for="cliente" class="label">Cliente</label>
+                <div class="control has-icons-left">
+                    <div class="select is-fullwidth">
+                        <select name="cliente" id="cliente" required>
+                            <option value="">Selecione um cliente</option>
+                            {% for cliente in clientes %}
+                            <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Seção de Informações do Cliente -->
+            <div id="info-cliente" class="box" style="display: none; margin-top: 1rem;">
+                <h2 class="title is-5">Informações do Cliente</h2>
+                <div class="columns">
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">Nome</label>
+                            <p id="cliente-nome" class="has-text-weight-semibold has-text-grey-dark"></p>
+                        </div>
+                        <div class="field">
+                            <label class="label">CNPJ</label>
+                            <p id="cliente-cnpj" class="has-text-weight-semibold has-text-grey-dark"></p>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label">Endereço</label>
+                            <p id="cliente-endereco" class="has-text-weight-semibold has-text-grey-dark"></p>
+                        </div>
+                        <div class="field">
+                            <label class="label">Conta Sigma</label>
+                            <p id="cliente-conta-sigma" class="has-text-weight-semibold has-text-grey-dark"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campo para Categoria -->
+            <div class="field">
+                <label for="categoria" class="label">Categoria</label>
+                <div class="control has-icons-left">
+                    <div class="select is-fullwidth">
+                        <select name="categoria" id="categoria" required>
+                            <option value="">Selecione uma categoria</option>
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-folder-open"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para Serviço (Carregado dinamicamente) -->
+            <div class="field" id="servico-field" style="display: none;">
+                <label for="servico" class="label">Serviço</label>
+                <div class="control has-icons-left">
+                    <div class="select is-fullwidth">
+                        <select name="servico" id="servico" required>
+                            <option value="">Selecione um serviço</option>
+                        </select>
+                    </div>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-concierge-bell"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para Descrição -->
+            <div class="field">
+                <label for="descricao" class="label">Descrição</label>
+                <div class="control">
+                    <textarea class="textarea" name="descricao" id="descricao" rows="4" placeholder="Descreva o problema" required disabled></textarea>
+                </div>
+            </div>
+
+            <!-- Campos de Data e Hora -->
+            <div class="field">
+                <label class="label">Data/Hora de Abertura</label>
+                <div class="control">
+                    <input type="text" class="input is-readonly" value="{{ data_hora_abertura }}" readonly>
+                </div>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button type="submit" class="button is-success">Criar Chamado</button>
+                </div>
+                <div class="control">
+                    <a href="{{ url_for('chamados.listar_chamados') }}" class="button is-light">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Função para carregar serviços dinamicamente com base na categoria selecionada
+document.getElementById('categoria').addEventListener('change', function() {
+    var categoriaId = this.value;
+    var servicoField = document.getElementById('servico-field');
+    var servicoSelect = document.getElementById('servico');
+    var descricaoField = document.getElementById('descricao');
+
+    if (categoriaId) {
+        servicoField.style.display = 'block';
+        descricaoField.disabled = true; 
+
+        servicoSelect.innerHTML = '<option value="">Selecione um serviço</option>';
+
+        fetch('/servicos/categoria/' + categoriaId)
+            .then(response => response.json())
+            .then(data => {
+                data.servicos.forEach(function(servico) {
+                    var option = document.createElement('option');
+                    option.value = servico.id;
+                    option.text = servico.nome;
+                    servicoSelect.appendChild(option);
+                });
+            });
+    } else {
+        servicoField.style.display = 'none';
+        descricaoField.disabled = true; 
+    }
+});
+
+document.getElementById('servico').addEventListener('change', function() {
+    var servicoId = this.value;
+    var descricaoField = document.getElementById('descricao');
+    if (servicoId) {
+        descricaoField.disabled = false; 
+    } else {
+        descricaoField.disabled = true; 
+    }
+});
+
+document.getElementById('cliente').addEventListener('change', function() {
+    var clienteId = this.value;
+    if (clienteId) {
+        fetch('/clientes/' + clienteId)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.error) {
+                    document.getElementById('info-cliente').style.display = 'block';
+                    document.getElementById('cliente-nome').textContent = data.nome;
+                    document.getElementById('cliente-cnpj').textContent = data.cnpj;
+                    document.getElementById('cliente-endereco').textContent = data.endereco;
+                    document.getElementById('cliente-conta-sigma').textContent = data.conta_sigma;
+                } else {
+                    alert(data.error);
+                }
+            });
+    } else {
+        document.getElementById('info-cliente').style.display = 'none';
+    }
+});
+</script>
+{% endblock %}

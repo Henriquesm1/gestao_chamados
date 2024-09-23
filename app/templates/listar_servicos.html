@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4">Lista de Serviços</h1>
+<table class="table is-striped is-hoverable is-fullwidth">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for servico in servicos %}
+        <tr>
+            <td>{{ servico.nome }}</td>
+            <td>{{ servico.descricao }}</td>
+            <td>{{ servico.categoria.nome if servico.categoria else 'Sem Categoria' }}</td>
+            <td>
+                <!-- Ações como Editar/Excluir -->
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

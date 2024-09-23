@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4">Cadastrar Novo Cliente</h1>
+<div class="card">
+    <div class="card-content">
+        <form method="POST">
+            <!-- Campo para Nome do Cliente -->
+            <div class="field">
+                <label for="nome" class="label">Nome do Cliente</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="nome" placeholder="Digite o nome do cliente" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para Endereço -->
+            <div class="field">
+                <label for="endereco" class="label">Endereço</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="endereco" placeholder="Digite o endereço">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para CEP -->
+            <div class="field">
+                <label for="cep" class="label">CEP</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="cep" placeholder="Digite o CEP" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-mail-bulk"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para CNPJ -->
+            <div class="field">
+                <label for="cnpj" class="label">CNPJ</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="cnpj" placeholder="Digite o CNPJ" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-id-card"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campo para Conta Sigma -->
+            <div class="field">
+                <label for="conta_sigma" class="label">Conta Sigma</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="conta_sigma" placeholder="Digite a conta Sigma">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-credit-card"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Campos para Equipamentos do Cliente -->
+            <div class="field">
+                <label for="equipamentos" class="label">Equipamentos do Cliente</label>
+                <div id="equipamentos-container">
+                    <div class="control has-icons-left equipamento-item">
+                        <input type="text" class="input" name="equipamentos" placeholder="Digite o nome do equipamento">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-toolbox"></i>
+                        </span>
+                    </div>
+                </div>
+                <button type="button" class="button is-link is-light is-small mt-2" onclick="adicionarEquipamento()">Adicionar Equipamento</button>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button type="submit" class="button is-success">Salvar Cliente</button>
+                </div>
+                <div class="control">
+                    <a href="{{ url_for('clientes.listar_clientes') }}" class="button is-light">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Função para adicionar mais campos de equipamento
+    function adicionarEquipamento() {
+        const container = document.getElementById('equipamentos-container');
+        const item = document.createElement('div');
+        item.className = 'control has-icons-left equipamento-item';
+        item.innerHTML = `
+            <input type="text" class="input mt-2" name="equipamentos" placeholder="Digite o nome do equipamento">
+            <span class="icon is-small is-left">
+                <i class="fas fa-toolbox"></i>
+            </span>
+        `;
+        container.appendChild(item);
+    }
+</script>
+{% endblock %}

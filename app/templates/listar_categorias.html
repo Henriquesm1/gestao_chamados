@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title is-4">Nova Categoria</h1>
+<div class="card">
+    <div class="card-content">
+        <form method="POST" class="box">
+            <div class="field">
+                <label for="nome" class="label">Nome da Categoria</label>
+                <div class="control has-icons-left">
+                    <input type="text" class="input" name="nome" placeholder="Digite o nome da categoria" required>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-folder"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="descricao" class="label">Descrição</label>
+                <div class="control has-icons-left">
+                    <textarea class="textarea" name="descricao" rows="4" placeholder="Descreva a categoria"></textarea>
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-align-left"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                    <button type="submit" class="button is-success">Criar Categoria</button>
+                </div>
+                <div class="control">
+                    <a href="{{ url_for('categorias.listar_categorias') }}" class="button is-light">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
