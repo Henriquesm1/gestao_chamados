@@ -8,7 +8,7 @@ app = create_app()
 # Dados do novo usuário admin
 username = ''
 email = ''
-password = ''  # Altere para uma senha forte de sua escolha
+password = ''  
 perfil = ''
 
 # Função para criar o usuário admin
@@ -31,11 +31,9 @@ def create_admin_user():
             perfil=perfil
         )
         
-        # Adiciona e confirma no banco de dados
         db.session.add(new_admin)
         db.session.commit()
         print("Usuário admin criado com sucesso.")
 
-# Executa a função para criar o usuário admin
 if __name__ == "__main__":
     create_admin_user()
