@@ -75,7 +75,7 @@ class Cliente(db.Model):
     nome = db.Column(db.String(100), nullable=False)
     endereco = db.Column(db.String(200))
     cnpj = db.Column(db.String(20), unique=True, nullable=False)
-    conta_sigma = db.Column(db.String(50))
+    conta = db.Column(db.String(50))
     cep = db.Column(db.String(10))
     equipamentos = db.relationship('Equipamento', backref='cliente', lazy=True)
 
