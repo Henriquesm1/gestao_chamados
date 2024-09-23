@@ -10,7 +10,7 @@ def novo_cliente():
         nome = request.form.get('nome')
         endereco = request.form.get('endereco')
         cnpj = request.form.get('cnpj')
-        conta_sigma = request.form.get('conta_sigma')
+        conta = request.form.get('conta')
         equipamentos_nomes = request.form.getlist('equipamentos')
 
         # Verifica se o CNPJ já está cadastrado
@@ -18,7 +18,7 @@ def novo_cliente():
             flash('CNPJ já cadastrado!', 'danger')
             return redirect(url_for('clientes.novo_cliente'))
 
-        novo_cliente = Cliente(nome=nome, endereco=endereco, cnpj=cnpj, conta_sigma=conta_sigma)
+        novo_cliente = Cliente(nome=nome, endereco=endereco, cnpj=cnpj, conta=conta)
         db.session.add(novo_cliente)
         db.session.commit()
 
